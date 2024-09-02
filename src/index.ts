@@ -15,7 +15,9 @@ app.use(express.json());
 
 app.use('/api', userRoutes);
 app.use('/api', notificationRoutes);
-
+app.get('/', (req, res) => {
+  res.send('Welcome to the Notification System!');
+});
 console.log('Index.js is executed properly');
 
 // Log the actual address where the server is running
