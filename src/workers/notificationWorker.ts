@@ -1,7 +1,7 @@
 // src/workers/notificationWorker.ts
 import { Worker } from 'bullmq';
 import  redisConnection  from '../config/redis';
-
+console.log("notification worker triggered ");
 const notificationWorker = new Worker('notifications', async job => {
   const { message, userId } = job.data;
   
@@ -12,8 +12,5 @@ const notificationWorker = new Worker('notifications', async job => {
 }, {
   connection: redisConnection,
 });
-const sendNotification = async (userId: string, message: string) => {
-    // Simulate sending a notification (replace with actual implementation)
-    console.log(`Notification sent to user ${userId}: ${message}`);
-  };
+
 export default notificationWorker;

@@ -4,10 +4,10 @@ import { PrismaClient } from '@prisma/client';
 //import worker from '../workers/notificationWorker';
 
 const prisma = new PrismaClient();
-
+console.log("notification controller file executed");
 export const sendNotification = async (req: Request, res: Response) => {
   const { message } = req.body;
-
+  console.log("send_notification triggered");
   if (!message) {
     console.error("Invalid Data");
     return res.status(400).json({ error: 'Invalid data' });

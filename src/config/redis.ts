@@ -8,10 +8,13 @@ let redisConnection: Redis;
 
 if (process.env.REDIS_URL) {
   // Use Redis URL from Render in production
+  console.log("REDIS_URL");
   redisConnection = new Redis(process.env.REDIS_URL, {
     maxRetriesPerRequest: null, // Ensure this is set to null for BullMQ
   });
 } else {
+
+  console.log("REDIS_PORT AND LOCAL");
   // Use host and port for local development
   redisConnection = new Redis({
     host: process.env.REDIS_HOST || 'localhost',
