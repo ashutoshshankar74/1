@@ -63,7 +63,7 @@ notification-system/
 Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/notification-system.git
+git clone https://github.com/ashutoshshankar74/notification-system.git
 cd notification-system
 
 ```
