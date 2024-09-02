@@ -2,11 +2,11 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
-console.log("user controller file executed");
+//console.log("user controller file executed");
 // Function to handle user registration
 export const registerUser = async (req: Request, res: Response) => {
   const { name, email } = req.body;
-  console.log("Rregister user triggered");
+  
   if (!name || !email) {
     console.error('Name and email are required');
     return res.status(400).json({ error: "Invalid data" });
@@ -23,7 +23,7 @@ export const registerUser = async (req: Request, res: Response) => {
   const newUser = await prisma.user.create({
     data: { name, email },
   });
-  console.error('User registered successfully');
+  console.log('User registered successfully');
   return res.status(201).json({
     message: "User registered successfully",
     user: newUser,

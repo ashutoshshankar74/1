@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 //import worker from '../workers/notificationWorker';
 
 const prisma = new PrismaClient();
-console.log("notification controller file executed");
+// console.log("notification controller file executed");
 export const sendNotification = async (req: Request, res: Response) => {
   const { message } = req.body;
   console.log("send_notification triggered");
@@ -34,7 +34,7 @@ export const sendNotification = async (req: Request, res: Response) => {
         });
       
 
-        console.log(`Job ${subscription.type} queued for user ${subscription.user.id}`);
+        //console.log(`Job ${subscription.type} queued for user ${subscription.user.id}`);
       } catch (error) {
         console.error('Error adding job to queue:', error);
       }

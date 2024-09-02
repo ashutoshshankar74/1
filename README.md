@@ -31,19 +31,19 @@ notification-system/
 ├── src/
 │   ├── controllers/
 │   │   └── notificationController.ts  # Handles API logic for notifications
-│   │
+│   │   └── userController.ts
 │   ├── queues/
 │   │   └── notificationQueue.ts  # Queue setup for notifications
 │   │
 │   ├── workers/
-│   │   └── notificationWorker.ts # Worker to process notification jobs
-│   │
-│   ├── services/
-│   │   └── notificationService.ts # Business logic for notifications
+│   │   └── notificationWorker.ts # Worker to process notification job
 │   │
 │   ├── config/
 │   │   └── redisConfig.ts         # Redis configuration
 │   │
+│   ├── routes/
+│   │   └── notification.ts 
+│   │   └── user.ts
 │   ├── index.ts                   # Main entry point of the application
 │   └── app.ts                     # Express app configuration
 │
@@ -52,6 +52,7 @@ notification-system/
 ├── package.json                   # NPM scripts and dependencies
 ├── tsconfig.json                  # TypeScript configuration
 └── README.md                      # Project documentation
+
 ```
 
 ---
@@ -189,16 +190,53 @@ npm run dev
 ```
 The server should be running at http://localhost:{POST}.
 
+### 8. package.json 
+```bash
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^5.19.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.1",
+    "bullmq": "^5.12.12",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "ioredis": "^5.4.1",
+    "nodemon": "^3.1.4",
+    "pg": "^8.12.0",
+    "prisma": "^5.19.0",
+    "redis": "^4.7.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17"
+}
+}
+
+```
+
 ## API Documentation
 
 ### 1. Register a User
-Endpoint: POST /api/register
+* Endpoint: POST /api/register
+* Description: Trigger a notification to all subscribed users.
 
 Request Body:
 ```bash
-{
-  "name": "John Doe",
-  "email": "john.doe@example.com"
+ {
+  "name": "Ashu",
+  "email": "ashu@example.com"
 }
 
 ```
@@ -206,12 +244,18 @@ Request Body:
 Response:
 ```bash
 {
-  "message": "User registered successfully"
+  "message": "User registered successfully",
+  "user": {
+    "id": 12,
+    "name": "Ashu",
+    "email": "ashu@example.com"
+  }
 }
 
 ```
 ### 2. Subscribe to Notifications
-Endpoint: POST /api/subscribe
+* Endpoint: POST /api/subscribe
+* Description: Subscribe a user to notifications.
 
 Request Body:
 ```bash
@@ -224,7 +268,12 @@ Request Body:
 Response:
 ```bash
 {
-  "message": "Subscribed successfully"
+  "message": "User subscribed successfully",
+  "subscription": {
+    "id": 1,
+    "type": "email",
+    "userId": 1
+  }
 }
 
 ```
@@ -270,12 +319,20 @@ BullMQ is a library for handling distributed jobs and messages in Node.js. It us
 ---
 ## Deployment
 
-Link :
-```bash
-https://notification-system-2.onrender.com/
+### Link :
 
-```
+#### https://notification-system-2.onrender.com/
+
+
 ---
+## Future Add Ons
+* Validating the type of subscription
+* Sending specifc notification to users subscribed for specific services
+for example :- `Thankyou for subscribing to Email Service!` to user who subscribed to Email service.
+* Personalised notification
+For example :- `Hii Pratham, You will soon receive a SMS.` 
+* Integrating with UI
+
 
 ## Conclusion
 This README provides a comprehensive guide for setting up, configuring, and running the Notification System project.

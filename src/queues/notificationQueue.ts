@@ -5,5 +5,5 @@ import  redisConnection  from '../config/redis';
 const notificationQueue = new Queue('notifications', {
   connection: redisConnection,
 });
-console.log(`notification queue executed in queue`);
+//console.log(`notification queue executed in queue`);
 export default notificationQueue;
