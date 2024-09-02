@@ -21,7 +21,7 @@ Before setting up the project, ensure you have the following installed on your m
 ## Project Directory Structure
 
 Here's the structure of the project directory:
-
+```bash
 notification-system/
 │
 ├── prisma/
@@ -52,7 +52,7 @@ notification-system/
 ├── package.json                   # NPM scripts and dependencies
 ├── tsconfig.json                  # TypeScript configuration
 └── README.md                      # Project documentation
-
+```
 
 ---
 
@@ -90,28 +90,22 @@ npm install
 
 Once PostgreSQL is installed and running:
 
-#### * Create a new database:
+####  Create a new database:
 
 ```bash
 CREATE DATABASE notification_system;
 
 ```
-#### * Create a new user with a password:
+####  Create a new user with a password:
 
 ```bash
 CREATE USER your_username WITH PASSWORD 'your_password';
 
 ```
-#### * Grant all privileges on the database to the user:
+####  Grant all privileges on the database to the user:
 
 ```bash
 GRANT ALL PRIVILEGES ON DATABASE notification_system TO your_username;
-
-```
-#### * Access the PostgreSQL command-line interface:
-
-```bash
-sudo -u postgres psql
 
 ```
 
@@ -120,9 +114,13 @@ sudo -u postgres psql
 Create a .env file in the root directory of your project and add the following environment variables:+
 
 ```bash
-DATABASE_URL="postgresql://your_username:your_password@localhost:5432/notification_system?schema=public"
-REDIS_HOST=127.0.0.1
+
+PORT=5000
+REDIS_HOST=localhost
 REDIS_PORT=6379
+DATABASE_URL="postgresql://postgres:ashu@localhost:5432/notification_system"
+REDIS_URL=redis://default:<password>@<host>:<port>
+
 
 ```
 Replace your_username and your_password with the credentials you set up in PostgreSQL.
@@ -131,7 +129,7 @@ Replace your_username and your_password with the credentials you set up in Postg
 
 Prisma is used to manage the PostgreSQL database schema.
 
-#### * Initialize Prisma:
+#### 1. Initialize Prisma:
 
 ```bash
 npx prisma init
@@ -139,7 +137,7 @@ npx prisma init
 ```
 This will create a prisma folder with a schema.prisma file.
 
-#### * Define Prisma Schema
+#### 2. Define Prisma Schema
 
 Open the prisma/schema.prisma file and define the User and Subscription models: 
 ```bash
@@ -168,9 +166,116 @@ Open the prisma/schema.prisma file and define the User and Subscription models:
 
 
 ```
-#### * Create a new database:
-
+#### 3. Run Migrations
+Apply the schema to the PostgreSQL database by running:
 ```bash
-CREATE DATABASE notification_system;
+npx prisma migrate dev --name init
 
 ```
+
+#### 4. Generate Prisma Client
+Generate the Prisma Client to interact with your database:
+
+```bash
+npx prisma generate
+
+```
+
+### 7. Run the Project
+After completing the setup, start the development server:
+```bash
+npm run dev
+
+```
+The server should be running at http://localhost:{POST}.
+
+## API Documentation
+
+### 1. Register a User
+Endpoint: POST /api/register
+
+Request Body:
+```bash
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com"
+}
+
+```
+
+Response:
+```bash
+{
+  "message": "User registered successfully"
+}
+
+```
+### 2. Subscribe to Notifications
+Endpoint: POST /api/subscribe
+
+Request Body:
+```bash
+{
+  "userId": 1,
+  "type": "email"
+}
+
+```
+Response:
+```bash
+{
+  "message": "Subscribed successfully"
+}
+
+```
+### 3. Send Notifications
+Endpoint: POST /api/notify
+
+Request Body:
+```bash
+{
+  "message": "Welcome to our service!"
+}
+
+```
+Response:
+```bash
+{
+  "message": "Notifications queued for all subscribed users"
+}
+
+```
+
+---
+## Detailed Explanation of Technologies Used
+
+### Node.js
+Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It enables the development of scalable network applications and is used to run the backend server in this project.
+
+### Express
+Express is a web application framework for Node.js. It provides a robust set of features for building web applications and APIs. In this project, Express is used to create the API endpoints.
+
+### TypeScript
+TypeScript is a statically typed superset of JavaScript that adds type safety to the language. It helps in catching errors during development and improving code quality. This project uses TypeScript to write the backend code.
+
+### Prisma ORM
+Prisma is an open-source ORM (Object-Relational Mapping) tool that simplifies database access and management. It provides a type-safe query builder and schema migration tools. In this project, Prisma is used to define the database schema and interact with the PostgreSQL database.
+
+### Redis
+Redis is an in-memory data structure store used as a database, cache, and message broker. It is used in this project for managing the notification queue with BullMQ.
+
+### BullMQ
+BullMQ is a library for handling distributed jobs and messages in Node.js. It uses Redis as a backend for queuing and processing jobs. In this project, BullMQ is used to queue and process notification jobs asynchronously.
+
+---
+## Deployment
+
+Link :
+```bash
+https://notification-system-2.onrender.com/
+
+```
+---
+
+## Conclusion
+This README provides a comprehensive guide for setting up, configuring, and running the Notification System project.
