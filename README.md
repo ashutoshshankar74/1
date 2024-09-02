@@ -45,7 +45,6 @@ notification-system/
 │   │   └── notification.ts 
 │   │   └── user.ts
 │   ├── index.ts                   # Main entry point of the application
-│   └── app.ts                     # Express app configuration
 │
 ├── .env                           # Environment variables
 ├── .gitignore                     # Git ignore file
