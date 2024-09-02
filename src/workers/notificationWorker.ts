@@ -1,6 +1,6 @@
 // src/workers/notificationWorker.ts
 import { Worker } from 'bullmq';
-import  {redisConnection}  from '../config/redis';
+import  redisConnection  from '../config/redis';
 
 const notificationWorker = new Worker('notifications', async job => {
   const { message, userId } = job.data;
